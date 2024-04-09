@@ -1,0 +1,116 @@
+.game-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: column;
+    font-family: Arial, sans-serif;
+    margin: 20px auto;
+}
+
+.sides {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.side {
+    text-align: center;
+}
+
+.side .score {
+    font-weight: bold;
+    font-size: 20px;
+    margin-top: 5px;
+}
+
+.game-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 100px);
+    grid-template-rows: repeat(3, 100px);
+    gap: 5px;
+    margin: 20px auto;
+}
+
+.game-grid > div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid #ccc;
+    font-size: 40px;
+    cursor: pointer;
+}
+
+.game-grid > div:hover {
+    background-color: #f0f0f0;
+}
+
+.output {
+    margin-top: 10px;
+    font-size: 18px;
+}
+
+.win {
+    color: green;
+    font-weight: bold;
+}
+
+.selected {
+    pointer-events: none;
+}
+
+.moving {
+    background-color: lightblue;
+}
+
+.active {
+    pointer-events: auto;
+}
+
+button {
+    font-family: Courier New;
+    background-color: lightpink;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 20px;
+    margin: 10px;
+    cursor: pointer;
+    align-items: center;
+}
+
+button:hover {
+    background-color: pink;
+}
+
+.info {
+    float: right;
+    width: 30%; 
+    padding: 50px;
+	background-color: lightpink;
+	font-family: Courier New;
+	border-radius: 20px;
+
+}
+
+header {
+    border: 4px rounded lightpink;
+	background-color: lightpink;
+    text-align: center;
+	font-size: 20px;
+    font-family: Courier New;
+	border-radius: 10px;
+	padding: 5px;
+}
+
+body {
+    background-color: LightCyan;
+}
+nav {
+    text-align: center; 
+}
+
+img {
+    width: 100px;
+    height: 100px;
+    margin: 0 300px; 
+}
