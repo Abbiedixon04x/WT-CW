@@ -5,23 +5,15 @@
     flex-direction: column;
     font-family: Arial, sans-serif;
     margin: 20px auto;
+	flex:1;
 }
 
-.sides {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
+.container {
+	display: flex;
+    font-family: Arial, sans-serif;
+    margin: 20px auto;
 }
 
-.side {
-    text-align: center;
-}
-
-.side .score {
-    font-weight: bold;
-    font-size: 20px;
-    margin-top: 5px;
-}
 
 .game-grid {
     display: grid;
@@ -86,6 +78,7 @@ button:hover {
     float: right;
     width: 30%; 
     padding: 50px;
+	margin-right: 80px;
 	background-color: lightpink;
 	font-family: Courier New;
 	border-radius: 20px;
@@ -104,13 +97,71 @@ header {
 
 body {
     background-color: LightCyan;
+	margin: 0;
+	padding: 0;
+	max-width: 100vw;
 }
 nav {
     text-align: center; 
 }
 
 img {
-    width: 100px;
-    height: 100px;
-    margin: 0 300px; 
+    width: 200px;
+    height: 200px;
+}
+
+img-holder {
+	flex: 0.5;
+	display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+img-stacked {
+    flex: 0.5;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+img-stacked img {
+    margin-bottom: 70px; 
+}
+
+/*reference W3Schools - Date accessed 06/05/24*/
+#scoreTable {
+    float: right;
+    margin-top: 40px;
+    margin-right: 40px;
+}
+
+/*reference W3Schools - Date accessed 06/05/24*/
+#scoreTable {
+    border-collapse: collapse;
+    width: 400px; /* Adjust width as needed */
+}
+
+#scoreTable th, #scoreTable td {
+    border: 1px solid #lightpink;
+    padding: 15px;
+	border-radius: 20px;
+
+}
+
+#scoreTable th {
+    background-color: lightpink;
+    color: white;
+    text-align: center;
+	font-family: Courier New;
+
+}
+
+#scoreTable tr:nth-child(even) {
+    background-color: lightpink;
+}
+
+/*reference W3Schools - Date accessed 06/05/24*/
+#scoreTable tr:hover {
+    background-color: pink;
 }

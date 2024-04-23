@@ -10,26 +10,34 @@
 <body>
     <header>
         <h1>Knots-and-crosses</h1>
+		<h2>Information page</h2>
     </header>
     <nav> 
-        <button onclick="location.href='CW.html'">Home</button>
+        <button onclick="location.href='index.html'">Home</button>
         <button onclick="location.href='score.html'">score</button>
         <button onclick="location.href='info.html'">Info</button>
     </nav>
     
 	<div class="info">
-        <h2>Information</h2>
-        <p>The game is played on a grid that's 3 squares by 3 squares. <br>
-		You are X , your friend (or the computer in this case) is O . <br>
-		Players take turns putting their marks in empty squares.<br>
-		The first player to get 3 of her marks in a row (up, down, across, or diagonally) is the winner.<br>
-		When all 9 squares are full, the game is over. <br>
-		If no player has 3 marks in a row, the game ends in a tie.</p>
+        <h2>HOW TO PLAY</h2>
+        <p>The game is played on a grid that's 3 squares by 3 squares. <br></p>
+		<p>You are X , your friend (or the computer in this case) is O . <br></p>
+		<p>Players take turns putting their marks in empty squares.<br></p>
+		<p>The first player to get 3 of her marks in a row (up, down, across, or diagonally) is the winner.<br></p>
+		<p>When all 9 squares are full, the game is over. <br></p>
+		<p>If no player has 3 marks in a row, the game ends in a tie.</p>
+		<a href="https://gametable.org/games/tic-tac-toe/">Visit game table for more info!</a> <br>
+		<a href="http://www.mathsonline.org/pages/noughtsCrosses.html">Visit maths online for more info!</a> 
     </div>
+
 	
 	<br>
-    <img src="X.png" alt="X img"> 
-    <img src="o.png" alt="O img"> 
+	
+	<img-stacked>
+    <img id="O-img" src="o.png" alt="O img"> 
+	<img id="X-img" src="X.png" alt="X img"> 
+	</img-stacked>
+	
     <script src="CW.js"></script>
 </body>
 </html>

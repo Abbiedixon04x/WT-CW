@@ -1,13 +1,14 @@
-class TicTacToe {
+class KnotsAndCrosses {
     constructor(element) {
         this.container = element;
         this.complete = false;
-        this.generateBoard();
-        this.generateScore();
+        this.makeGameboard();
+        this.calculatingScore();
         this.score = {
             player: 0,
-            ai: 0
+            COM: 0
         };
+/*reference inspiration taken from:  https://github.com/Archianne/noughts-and-crosses - date accessed 02/05/24*/
         this.win = [
             [1, 2, 3],
             [4, 5, 6],
@@ -18,24 +19,22 @@ class TicTacToe {
             [1, 5, 9],
             [3, 5, 7]
         ];
-        this.startGame();
+        this.BeginGame();
     }
-
-    generateScore() {
+/*reference inspiration taken from:  https://www.reddit.com/r/learnjavascript/comments/dynhmv/logic_of_tic_tac_toe_with_simple_ai_in_javascript/?rdt=52236 - Date accessed 01/05/24*/
+    calculatingScore() {
         const div = document.createElement("div");
         div.classList.add("game-scoreboard");
         div.innerHTML = `
             <div class="sides">
-                    <div class="side sideA">
-                        <div>Player</div>
-                        <div class="score">0</div>
-                    </div>
-                    <div class="side sideB">
-                        <div>AI</div>
-                        <div class="score">0</div>
-                    </div>
+                <div class="side sideA">
+                    <span class="score">0</span>
+                </div>
+                <div class="side sideB">
+                    <span class="score">0</span>
+                </div>
             </div>
-            <div><button>New Game</button></div>
+            <div><button onclick="game.BeginGame()">New Game</button></div>
             <div id="debug"></div>
         `;
         this.container.appendChild(div);
@@ -43,7 +42,6 @@ class TicTacToe {
         this.debug = this.container.querySelector("#debug");
         this.sideA = this.container.querySelector(".sideA");
         this.sideB = this.container.querySelector(".sideB");
-        this.resetButton.addEventListener("click", this.startGame.bind(this));
     }
 
     winCondition() {
@@ -57,7 +55,7 @@ class TicTacToe {
             });
         };
         check("player");
-        check("ai");
+        check("COM");
         if (winner) {
             row.forEach(x => {
                 const square = document.querySelector("[data-id='" + x + "']");
@@ -65,7 +63,7 @@ class TicTacToe {
             });
             this.complete = true;
             return winner;
-        } else if (this.ai.length + this.player.length === 9) {
+        } else if (this.COM.length + this.player.length === 9) {
             this.complete = true;
             return "draw";
         }
@@ -82,46 +80,65 @@ class TicTacToe {
     }
 
     showResult(winner) {
-        if (winner === "ai" || winner === "player") this.score[winner]++;
+        if (winner === "COM" || winner === "player") this.score[winner]++;
         this.output.innerHTML =
-            winner === "ai"
+            winner === "COM"
                 ? "Opponent Wins"
                 : winner === "draw"
                 ? "Game Tied"
                 : "You have Won!";
         this.resetButton.classList.add("active");
-        this.container.querySelector(".sideA .score").innerHTML = this.score[
-            "player"
-        ];
-        this.container.querySelector(".sideB .score").innerHTML = this.score["ai"];
+        this.container.querySelector(".sideA .score").innerHTML = this.score["player"];
+        this.container.querySelector(".sideB .score").innerHTML = this.score["COM"];
+
+        //get player name when they win 
+        if (winner === "player") {
+            const playerName = prompt("Congratulations! You won the game. Please enter your name:");
+            if (playerName) {
+                this.updateScoreTable(playerName);
+            }
+        }
     }
 
-	startGame() {
-		this.output.innerHTML = "";
-		this.move = true; // User always starts first
-		this.setTurn();
-		this.complete = false;
-		this.ai = [];
-		this.player = [];
-		this.resetButton.classList.remove("active");
-		document.querySelectorAll(".game-grid > div").forEach(square => {
-			square.innerHTML = "";
-			square.className = "";
-		});
-		this.updateDisplay();
-		if (this.move === false) this.thinking().then(() => this.aiMove());
-	}
+    updateScoreTable(playerName) {
+        //get existing score 
+        const scores = JSON.parse(sessionStorage.getItem("scores")) || {};
 
+        //Update the score 
+        scores[playerName] = scores[playerName] ? scores[playerName] + 1 : 1;
+
+        //put scores into session storage 
+        sessionStorage.setItem("scores", JSON.stringify(scores));
+
+       
+        window.location.href = "score.html";
+    }
+
+    BeginGame() {
+		// User always goes first
+        this.output.innerHTML = "";
+        this.move = true;
+        this.setTurn();
+        this.complete = false;
+        this.COM = [];
+        this.player = [];
+        this.resetButton.classList.remove("active");
+        document.querySelectorAll(".game-grid > div").forEach(square => {
+            square.innerHTML = "";
+            square.className = "";
+        });
+        this.updateDisplay();
+        if (this.move === false) this.calculating().then(() => this.COMMove());
+    }
 
     updateDisplay() {
         this.output.innerHTML = "";
         let winner = this.winCondition();
         if (winner) this.showResult(winner);
         else this.setTurn();
-       
     }
-
-    generateBoard() {
+/*reference inspiration taken from: https://github.com/Archianne/noughts-and-crosses - Date accessed 03/05/24*/
+    makeGameboard() {
         const grid = document.createElement("div");
         grid.classList.add("game-grid");
         for (let i = 0; i < 9; i++) {
@@ -150,10 +167,10 @@ class TicTacToe {
         ev.target.classList.add("selected");
         this.move = false;
         this.updateDisplay();
-        this.thinking().then(() => this.aiMove());
+        this.calculating().then(() => this.COMMove());
     }
 
-    thinking() {
+    calculating() {
         let ms = Math.floor(Math.random() * 2000) + 100;
         return new Promise((resolve, reject) => {
             setTimeout(() => {
@@ -161,8 +178,8 @@ class TicTacToe {
             }, ms);
         });
     }
-
-    aiMove() {
+/*reference https://www.reddit.com/r/learnjavascript/comments/dynhmv/logic_of_tic_tac_toe_with_simple_ai_in_javascript/?rdt=52236 - Date accessed 01/05/24*/
+    COMMove() {
         if (this.complete === true || this.move === true) return false;
         let moves = [],
             selection;
@@ -172,16 +189,15 @@ class TicTacToe {
             else moves = [1, 3, 7, 9];
         };
         const checkWin = side => {
-            let other = side === "ai" ? "player" : "ai";
+            let other = side === "COM" ? "player" : "COM";
             console.log("Running checkWin for " + side);
             this.win.forEach(x => {
                 let count = 0;
                 this[side].forEach(y => {
-                    // Y = single number to check
                     if (x.includes(y)) count++;
                     if (count == 2 && !selection)
                         selection = x.filter(
-                            f => !this.ai.includes(f) && !this.player.includes(f)
+                            f => !this.COM.includes(f) && !this.player.includes(f)
                         )[0];
                 });
                 console.log(
@@ -202,10 +218,10 @@ class TicTacToe {
                     if (this.player.includes(y)) return true;
                 });
 
-                this.ai.forEach(y => {
+                this.COM.forEach(y => {
                     if (x.includes(y)) {
                         x.filter(
-                            f => !this.ai.includes(f) && !this.player.includes(f)
+                            f => !this.COM.includes(f) && !this.player.includes(f)
                         ).forEach(h => potentials.add(h));
                     }
                 });
@@ -213,9 +229,9 @@ class TicTacToe {
             moves = [...potentials];
         };
 
-        if (this.ai.length === 0) initialMove();
+        if (this.COM.length === 0) initialMove();
         else {
-            checkWin("ai");
+            checkWin("COM");
             if (!selection) checkWin("player");
             if (!selection) generalMove();
         }
@@ -225,14 +241,14 @@ class TicTacToe {
             error < 20 &&
             (!selection ||
                 this.player.includes(selection) ||
-                this.ai.includes(selection))
+                this.COM.includes(selection))
         ) {
             selection = moves[Math.floor(Math.random() * moves.length)];
             error++;
         }
         if (error >= 10) alert("Error");
 
-        this.ai.push(selection);
+        this.COM.push(selection);
         const square = document.querySelector("[data-id='" + selection + "']");
         square.innerHTML = "O";
         square.classList.add("selected");
@@ -242,4 +258,4 @@ class TicTacToe {
 }
 
 const container = document.querySelector(".game-container");
-const game = new TicTacToe(container);
+const game = new KnotsAndCrosses(container);

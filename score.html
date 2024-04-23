@@ -1,25 +1,69 @@
-<!DOCTYPE html>
+<<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="mystyle.css">
     <title>Knots-and-crosses</title>
+    <link rel="stylesheet" href="mystyle.css">
 </head>
 
 <body>
     <header>
         <h1>Knots-and-crosses</h1>
+		<h2>Score Board</h2>
     </header>
     <nav> 
-        <button onclick="location.href='CW.html'">Home</button>
-        <button onclick="location.href='score.html'">score</button>
+        <button onclick="location.href='index.html'">Home</button>
+        <button onclick="location.href='score.html'">Score</button>
         <button onclick="location.href='info.html'">Info</button>
     </nav>
+    <br>
+    <table id="scoreTable">
+        <thead>
+            <tr>
+                <th>Player Name</th>
+                <th>Score</th>
+            </tr>
+        </thead>
+        <tbody id="scoreBody">
 
-	<br>
-    <img src="X.png" alt="X img"> 
-    <img src="o.png" alt="O img"> 
+        </tbody>
+    </table>
+    <script>
+        //gets the scores from session storage
+        const scores = JSON.parse(sessionStorage.getItem("scores")) || {};
+
+        //Gets the score table
+        const scoreTableBody = document.getElementById("scoreBody");
+
+        //Loops through scores and updates the table
+        for (const playerName in scores) {
+            if (scores.hasOwnProperty(playerName)) {
+                const score = scores[playerName];
+
+                //makes a new row
+                const newRow = document.createElement("tr");
+
+                //Creates a cells for player name and score
+                const nameCell = document.createElement("td");
+                nameCell.textContent = playerName;
+                const scoreCell = document.createElement("td");
+                scoreCell.textContent = score;
+                
+                newRow.appendChild(nameCell);
+                newRow.appendChild(scoreCell);
+
+                scoreTableBody.appendChild(newRow);
+            }
+        }
+    </script>
+</body>
+</html>
+
+	<img-stacked>
+    <img id="O-img" src="o.png" alt="O img"> 
+	<img id="X-img" src="X.png" alt="X img"> 
+	</img-stacked>
     <script src="CW.js"></script>
 </body>
 </html>
